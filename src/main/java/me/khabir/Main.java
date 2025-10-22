@@ -17,18 +17,18 @@ public class Main {
                 new Task("C", 3, 10, 10)
         );
 
-        EDFAlgorithm edf = new EDFAlgorithm(tasks);
+        EDFAlgorithm edf = new EDFAlgorithm();
 
-        switch (edf.isSchedulable()) {
+        switch (edf.isSchedulable(tasks)) {
             case SCHEDULABLE -> System.out.println("The task set is schedulable under EDF.");
             case NOT_SCHEDULABLE -> System.out.println("The task set is not schedulable under EDF.");
             case INDETERMINATE -> System.out.println("The task set may or may not be schedulable under EDF.");
         }
 
-        if (edf.isSchedulable() == Schedulability.NOT_SCHEDULABLE) {
+        if (edf.isSchedulable(tasks) == Schedulability.NOT_SCHEDULABLE) {
             return;
         }
-        Map<Integer, Task> schedule = edf.getScheduledTasks();
+        Map<Integer, Task> schedule = edf.schedule(tasks);
 
         TaskDrawer drawer = new GanttTaskDrawer();
         drawer.draw(schedule);

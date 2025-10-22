@@ -5,19 +5,12 @@ import me.khabir.entity.Task;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Stream;
 
-public class EDFAlgorithm {
+public class EDFAlgorithm implements Scheduler {
 
-    private List<Task> tasks;
     private Map<Integer, Task> scheduledTasks = new HashMap<>();
 
-    public EDFAlgorithm(List<Task> tasks) {
-        this.tasks = tasks;
-    }
-
-    public Schedulability isSchedulable() {
+    public Schedulability isSchedulable(List<Task> tasks) {
         // if di == pi for all i. => use the the condition with pi in the bottom is <=> to ordoncability by EDF
         // else if di < pi for some i => use the condition with di in the bottom is => to ordoncability by EDF, but not if and only if
         if (tasks.stream().allMatch(task -> task.getDeadline() == task.getPeriod())) {
@@ -48,11 +41,8 @@ public class EDFAlgorithm {
         }
     }
 
-    public void schedule() {
-        if (!this.scheduledTasks.isEmpty()) {
-            return; // Already scheduled
-        }
-        int hyperPeriod = tasksLCM(this.tasks);
+    public Map<Integer, Task> schedule(List<Task> tasks) {
+        int hyperPeriod = tasksLCM(tasks);
 
         for (int t = 0; t < hyperPeriod; t++) {
             for (Task task : tasks) {
@@ -60,7 +50,7 @@ public class EDFAlgorithm {
                     task.setCurrentCapacity(task.getCapacity());
                 }
             }
-            Task currentTask = getTaskWithEarliestDeadline(t);
+            Task currentTask = getTaskWithEarliestDeadline(tasks, t);
             if (currentTask != null) {
                 scheduledTasks.put(t, currentTask);
                 currentTask.setCurrentCapacity(currentTask.getCurrentCapacity() - 1);
@@ -68,14 +58,11 @@ public class EDFAlgorithm {
                 scheduledTasks.put(t, null); // Idle time
             }
         }
-    }
-
-    public Map<Integer, Task> getScheduledTasks() {
-        this.schedule();
         return scheduledTasks;
     }
 
-    private Task getTaskWithEarliestDeadline(int t) {
+
+    private Task getTaskWithEarliestDeadline(List<Task> tasks, int t) {
         Task earliestTask = null;
         int earliestDeadline = Integer.MAX_VALUE;
 
