@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class EDFAlgorithm implements Scheduler {
 
-    private Map<Integer, Task> scheduledTasks = new HashMap<>();
 
     public Schedulability isSchedulable(List<Task> tasks) {
         // if di == pi for all i. => use the the condition with pi in the bottom is <=> to ordoncability by EDF
@@ -42,6 +41,7 @@ public class EDFAlgorithm implements Scheduler {
     }
 
     public Map<Integer, Task> schedule(List<Task> tasks) {
+        Map<Integer, Task> scheduledTasks = new HashMap<>();
         int hyperPeriod = tasksLCM(tasks);
 
         for (int t = 0; t < hyperPeriod; t++) {

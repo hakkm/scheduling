@@ -19,6 +19,12 @@ public class Main {
                 new Task("C", 3, 10, 10)
         );
 
+        List<Task> tasksWithDeadlineMiss = List.of(
+                new Task("A", 3, 7, 20),
+                new Task("B", 2, 4, 5),
+                new Task("C", 1, 8, 10)
+        );
+
         Scheduler edf = new CachedScheduler(new EDFAlgorithm());
 
         switch (edf.isSchedulable(tasks)) {
@@ -30,10 +36,16 @@ public class Main {
         if (edf.isSchedulable(tasks) == Schedulability.NOT_SCHEDULABLE) {
             return;
         }
-        Map<Integer, Task> schedule = edf.schedule(tasks);
+        Map<Integer, Task> schedule = null;
+        Map<Integer, Task> schedule2 = null;
+
+        schedule = edf.schedule(tasks); // only compute one time
+        schedule2 = edf.schedule(tasksWithDeadlineMiss);
 
         TaskDrawer drawer = new GanttTaskDrawer();
-        drawer.draw(schedule);
+        drawer.draw(edf.schedule(tasks));
+        TaskDrawer drawer2 = new GanttTaskDrawer();
+        drawer2.draw(schedule2);
     }
 }
 
