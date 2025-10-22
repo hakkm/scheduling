@@ -1,7 +1,9 @@
 package me.khabir;
 
+import me.khabir.edf.CachedScheduler;
 import me.khabir.edf.EDFAlgorithm;
 import me.khabir.edf.Schedulability;
+import me.khabir.edf.Scheduler;
 import me.khabir.entity.Task;
 import me.khabir.ui.GanttTaskDrawer;
 import me.khabir.ui.TaskDrawer;
@@ -17,7 +19,7 @@ public class Main {
                 new Task("C", 3, 10, 10)
         );
 
-        EDFAlgorithm edf = new EDFAlgorithm();
+        Scheduler edf = new CachedScheduler(new EDFAlgorithm());
 
         switch (edf.isSchedulable(tasks)) {
             case SCHEDULABLE -> System.out.println("The task set is schedulable under EDF.");
