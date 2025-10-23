@@ -1,9 +1,9 @@
 package me.khabir;
 
-import me.khabir.edf.CachedScheduler;
-import me.khabir.edf.EDFAlgorithm;
-import me.khabir.edf.Schedulability;
-import me.khabir.edf.Scheduler;
+import me.khabir.algos.CachedScheduler;
+import me.khabir.algos.EDFAlgorithm;
+import me.khabir.algos.Schedulability;
+import me.khabir.algos.Scheduler;
 import me.khabir.entity.Task;
 import me.khabir.ui.GanttTaskDrawer;
 import me.khabir.ui.TaskDrawer;

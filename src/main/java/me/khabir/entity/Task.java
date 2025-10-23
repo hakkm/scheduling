@@ -25,6 +25,13 @@ public class Task {
         return currentCapacity;
     }
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+
     public void setCurrentCapacity(int currentCapacity) {
         this.currentCapacity = currentCapacity;
     }

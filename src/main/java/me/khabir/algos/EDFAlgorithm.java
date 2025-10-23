@@ -1,4 +1,4 @@
-package me.khabir.edf;
+package me.khabir.algos;
 
 import me.khabir.entity.Task;
 
@@ -46,6 +46,7 @@ public class EDFAlgorithm implements Scheduler {
 
         for (int t = 0; t < hyperPeriod; t++) {
             for (Task task : tasks) {
+                // reinitialize the current capacity if we hit the period
                 if (t % task.getPeriod() == 0) {
                     task.setCurrentCapacity(task.getCapacity());
                 }

@@ -1,4 +1,4 @@
-package me.khabir.edf;
+package me.khabir.algos;
 
 public enum Schedulability {
     SCHEDULABLE,
