@@ -1,9 +1,6 @@
 package me.khabir;
 
-import me.khabir.algos.CachedScheduler;
-import me.khabir.algos.EDFAlgorithm;
-import me.khabir.algos.Schedulability;
-import me.khabir.algos.Scheduler;
+import me.khabir.algos.*;
 import me.khabir.entity.Task;
 import me.khabir.ui.GanttTaskDrawer;
 import me.khabir.ui.TaskDrawer;
@@ -14,7 +11,7 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) {
         List<Task> tasks = List.of(
-                new Task("A", 6, 20, 20),
+                new Task("A", 6,7, 20),
                 new Task("B", 2, 5, 5),
                 new Task("C", 3, 10, 10)
         );
@@ -25,9 +22,14 @@ public class Main {
                 new Task("C", 1, 8, 10)
         );
 
-        Scheduler edf = new CachedScheduler(new EDFAlgorithm());
+        Scheduler edf = new CachedScheduler(new LLFAlgorithm());
 
         switch (edf.isSchedulable(tasks)) {
+            case SCHEDULABLE -> System.out.println("The task set is schedulable under EDF.");
+            case NOT_SCHEDULABLE -> System.out.println("The task set is not schedulable under EDF.");
+            case INDETERMINATE -> System.out.println("The task set may or may not be schedulable under EDF.");
+        }
+        switch (edf.isSchedulable(tasksWithDeadlineMiss)) {
             case SCHEDULABLE -> System.out.println("The task set is schedulable under EDF.");
             case NOT_SCHEDULABLE -> System.out.println("The task set is not schedulable under EDF.");
             case INDETERMINATE -> System.out.println("The task set may or may not be schedulable under EDF.");
@@ -44,8 +46,8 @@ public class Main {
 
         TaskDrawer drawer = new GanttTaskDrawer();
         drawer.draw(edf.schedule(tasks));
-        TaskDrawer drawer2 = new GanttTaskDrawer();
-        drawer2.draw(schedule2);
+//        TaskDrawer drawer2 = new GanttTaskDrawer();
+//        drawer2.draw(schedule2);
     }
 }
 

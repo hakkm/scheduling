@@ -51,11 +51,11 @@ public class Task {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Task task)) return false;
-        return getCapacity() == task.getCapacity() && getDeadline() == task.getDeadline() && getPeriod() == task.getPeriod() && getCurrentCapacity() == task.getCurrentCapacity() && Objects.equals(getName(), task.getName());
+        return getCapacity() == task.getCapacity() && getDeadline() == task.getDeadline() && getPeriod() == task.getPeriod() && Objects.equals(getName(), task.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getCapacity(), getDeadline(), getPeriod(), getCurrentCapacity());
+        return Objects.hash(getName(), getCapacity(), getDeadline(), getPeriod());
     }
 }
