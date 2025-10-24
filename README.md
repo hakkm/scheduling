@@ -4,3 +4,8 @@ Here is the algorithm in a course presentation:
 
 And here is the ouput of the java program:
 <img width="833" height="128" alt="image" src="https://github.com/user-attachments/assets/bb95e9df-aae0-4df1-ba8f-697814c0fe46" />
+
+# Algorithms Supported
+* EDF
+* LLF
+* RM
