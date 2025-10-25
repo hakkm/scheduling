@@ -4,9 +4,20 @@ import me.khabir.entity.Task;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public class RateMonotonic extends EDFAlgorithm {
+
+//    private List<Task> sortedTasks;
+
+    private List<Task> getSortedTasks(List<Task> tasks) {
+        // caching this way will not work
+        // let's just test without caching for now
+        // test factorizing the sorted tasks for dm algo
+//        if (this.sortedTasks != null) {
+//            return this.sortedTasks;
+//        }
+        return sortByPriority(tasks);
+    }
 
     @Override
     public Schedulability isSchedulable(List<Task> tasks) {
@@ -20,14 +31,14 @@ public class RateMonotonic extends EDFAlgorithm {
             if (utilization <= bound) {
                 return Schedulability.SCHEDULABLE;
             } else {
-                List<Task> tasksSorted = sortBySmallerPeriod(tasks);
+                List<Task> tasksSorted = sortByPriority(tasks);
                 int t = 0;
                 for (int i = 1; i <= tasks.size(); i++) {
                     System.out.printf("Pour i = %d (task P%d)%n", i, i);
                     while (true) {
                         int current_wi = wi(i, t, tasksSorted);
                         System.out.printf("\tw%d(%d) = %d", i, t, current_wi);
-                        if (current_wi > tasks.get(i-1).getDeadline())
+                        if (current_wi > tasks.get(i - 1).getDeadline())
                             return Schedulability.NOT_SCHEDULABLE;
                         if (t == current_wi) {
                             System.out.println(" OK");
@@ -58,19 +69,18 @@ public class RateMonotonic extends EDFAlgorithm {
         return sum;
     }
 
-    private List<Task> sortBySmallerPeriod(List<Task> tasks) {
+    protected List<Task> sortByPriority(List<Task> tasks) {
         return tasks.stream().sorted(Comparator.comparing(Task::getPeriod)).toList();
     }
 
 
     /*
-        * Returns the task with the earliest deadline at time t
+     * Returns the task with the earliest deadline at time t
      */
     private Task getTaskWithEarliestDeadline(List<Task> tasks, int t) {
         // 1. sort the task by priority (smaller period -> higher priority)
         // 2. select the highest priority task that has remaining capacity
-        List<Task> sortedTasks = sortBySmallerPeriod(tasks); // todo: cache it
-        for (Task task : sortedTasks) {
+        for (Task task : getSortedTasks(tasks)) {
             if (task.getCurrentCapacity() > 0) {
                 return task;
             }

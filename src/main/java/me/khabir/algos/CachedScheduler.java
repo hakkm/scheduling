@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+ * Caches the output of schedule method
+ */
 public class CachedScheduler implements Scheduler {
 
 
