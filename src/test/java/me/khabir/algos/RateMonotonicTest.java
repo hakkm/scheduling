@@ -138,5 +138,4 @@ class RateMonotonicTest {
             assertEquals(expectedOrder[i], actualName, "Mismatch at time " + i);
         }
     }
-
 }
