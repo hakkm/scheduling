@@ -7,16 +7,16 @@ import java.util.List;
 
 public class RateMonotonic extends EDFAlgorithm {
 
-//    private List<Task> sortedTasks;
+    private List<Task> sortedTasksCache = null;
+    private int lastTasksHash;
 
     private List<Task> getSortedTasks(List<Task> tasks) {
-        // caching this way will not work
-        // let's just test without caching for now
-        // test factorizing the sorted tasks for dm algo
-//        if (this.sortedTasks != null) {
-//            return this.sortedTasks;
-//        }
-        return sortByPriority(tasks);
+        int currentHash = tasks.hashCode();
+        if (currentHash != lastTasksHash) {
+            sortedTasksCache = sortByPriority(tasks);
+            lastTasksHash = currentHash;
+        }
+        return sortedTasksCache;
     }
 
     @Override

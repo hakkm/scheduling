@@ -138,4 +138,22 @@ class RateMonotonicTest {
             assertEquals(expectedOrder[i], actualName, "Mismatch at time " + i);
         }
     }
+
+    @Test
+    void testCachingSortedList() {
+        List<Task> tasks = List.of(
+                new Task("A", 40, 100, 100),
+                new Task("B", 40, 150, 150),
+                new Task("C", 100, 350, 350)
+        );
+        Schedulability s = rm.isSchedulable(tasks);
+        assertEquals(Schedulability.SCHEDULABLE, s);
+        tasks = List.of(
+                new Task("A", 90, 100, 100),
+                new Task("B", 80, 150, 150),
+                new Task("C", 100, 350, 350)
+        );
+        s = rm.isSchedulable(tasks);
+        assertEquals(Schedulability.NOT_SCHEDULABLE, s);
+    }
 }
