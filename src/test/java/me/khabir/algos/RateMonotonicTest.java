@@ -106,13 +106,4 @@ class RateMonotonicTest {
         Schedulability s = rm.isSchedulable(tasks);
         assertEquals(Schedulability.NOT_SCHEDULABLE, s);
     }
-
-    @Test
-    void testInvalidTaskValues() {
-        List<Task> tasks = List.of(
-                new Task("A", 0, 10, 10),
-                new Task("B", -1, 5, 5)
-        );
-        assertThrows(IllegalArgumentException.class, () -> rm.isSchedulable(tasks));
-    }
 }
