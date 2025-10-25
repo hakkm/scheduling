@@ -9,12 +9,21 @@ public class Task {
     int period;
     int currentCapacity;
 
-    public Task(String name, int Capacity, int Deadline, int Period) {
+    public Task(String name, int capacity, int deadline, int period) {
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Capacity must be positive. Given: " + capacity);
+        }
+        if (deadline <= 0) {
+            throw new IllegalArgumentException("Deadline must be positive. Given: " + deadline);
+        }
+        if (period <= 0) {
+            throw new IllegalArgumentException("Period must be positive. Given: " + period);
+        }
         this.name = name;
-        this.capacity = Capacity;
-        this.deadline = Deadline;
-        this.period = Period;
-        this.currentCapacity = Capacity;
+        this.capacity = capacity;
+        this.deadline = deadline;
+        this.period = period;
+        this.currentCapacity = capacity;
     }
 
     public int getCapacity() {
