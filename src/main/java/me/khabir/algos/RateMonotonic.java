@@ -6,7 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-public class RateMonotonic implements Scheduler {
+public class RateMonotonic extends EDFAlgorithm {
+
     @Override
     public Schedulability isSchedulable(List<Task> tasks) {
         if (tasks.stream().allMatch(task -> task.getDeadline() == task.getPeriod())) {
@@ -61,8 +62,19 @@ public class RateMonotonic implements Scheduler {
         return tasks.stream().sorted(Comparator.comparing(Task::getPeriod)).toList();
     }
 
-    @Override
-    public Map<Integer, Task> schedule(List<Task> tasks) {
-        return Map.of();
+
+    /*
+        * Returns the task with the earliest deadline at time t
+     */
+    private Task getTaskWithEarliestDeadline(List<Task> tasks, int t) {
+        // 1. sort the task by priority (smaller period -> higher priority)
+        // 2. select the highest priority task that has remaining capacity
+        List<Task> sortedTasks = sortBySmallerPeriod(tasks); // todo: cache it
+        for (Task task : sortedTasks) {
+            if (task.getCurrentCapacity() > 0) {
+                return task;
+            }
+        }
+        return null;
     }
 }

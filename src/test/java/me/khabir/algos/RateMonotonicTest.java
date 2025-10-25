@@ -1,13 +1,16 @@
 package me.khabir.algos;
 
 import me.khabir.entity.Task;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
-import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class RateMonotonicTest {
     RateMonotonic rm;
@@ -106,4 +109,34 @@ class RateMonotonicTest {
         Schedulability s = rm.isSchedulable(tasks);
         assertEquals(Schedulability.NOT_SCHEDULABLE, s);
     }
+
+    @Test
+    void testTaskExecutionOrder() {
+        List<Task> tasks = List.of(
+                new Task("A", 3, 20, 20),
+                new Task("B", 2, 5, 5),
+                new Task("C", 3, 10, 10)
+        );
+
+        Scheduler rm = new RateMonotonic();
+
+        if (rm.isSchedulable(tasks) != Schedulability.SCHEDULABLE) {
+            Assertions.fail("Task set should be schedulable");
+        }
+
+        Map<Integer, Task> schedule = rm.schedule(tasks);
+
+        // Expected order of execution
+        String[] expectedOrder = {
+                "B","B","C","C","C","B","B","A","A","A",
+                "B","B","C","C","C","B","B", null, null, null
+        };
+
+        for (int i = 0; i < expectedOrder.length; i++) {
+            Task actualTask = schedule.get(i);
+            String actualName = actualTask != null ? actualTask.getName() : null;
+            assertEquals(expectedOrder[i], actualName, "Mismatch at time " + i);
+        }
+    }
+
 }
