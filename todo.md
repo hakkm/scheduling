@@ -1,0 +1,2 @@
+- [ ] provide a param to specify a range of time to apply the algorithms
+    - just create another method in the interface that has the time range param(s)
